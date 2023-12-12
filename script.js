@@ -1,11 +1,12 @@
 const gamea = document.querySelector('#gamea')
 
-
+//#region 
 let t=[]
 for(let i=0;i<100;i++){
     t.push(i+1)
 }
-
+//#endregion
+//#region 
     
 for(let i=0; i<100; i++){
 let pos1= Math.floor(Math.random()*12)
@@ -15,7 +16,11 @@ t[pos1]=t[pos2]
 t[pos2]=temp
 }
 
+//#endregion
+
 let nextNumber = 1
+
+//#region 
 
 for (let i= 0; i < 12; i++) {
     let szamDoboz = document.createElement ('div')
@@ -29,3 +34,15 @@ for (let i= 0; i < 12; i++) {
 })
 
 }
+//#endregion
+
+//#region 
+const szamlalo= document.querySelector('#szamlalo')
+
+let ido=0
+setInterval(function (){
+    szamlalo.innerText= ido
+    ido++
+},1000)
+
+//#endregion
