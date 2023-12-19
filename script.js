@@ -1,48 +1,72 @@
 const gamea = document.querySelector('#gamea')
+const startButton = document.querySelector('#start')
+const szamlalo = document.querySelector('#szamlalo')
+let t = []
+let ido
+let idozito
+let nextNumber
 
-//#region 
-let t=[]
-for(let i=0;i<100;i++){
-    t.push(i+1)
-}
-//#endregion
-//#region 
-    
-for(let i=0; i<100; i++){
-let pos1= Math.floor(Math.random()*12)
-let pos2= Math.floor(Math.random()*12)
-let temp=t[pos1]
-t[pos1]=t[pos2]
-t[pos2]=temp
+function initNumbers() {
+  for (let i = 0; i < 100; i++) {
+    t.push(i + 1)
+  }
 }
 
-//#endregion
+function shuffleNumbers() {
+  for (let i = 0; i < 100; i++) {
+    let pos1 = Math.floor(Math.random() * 12)
+    let pos2 = Math.floor(Math.random() * 12)
+    let temp = t[pos1]
+    t[pos1] = t[pos2]
+    t[pos2] = temp
+  }
+}
 
-let nextNumber = 1
+function createBoxes() {
+  for (let i = 0; i < 12; i++) {
+    let szamDoboz = document.createElement('div')
+    // szamDoboz.innerText = t[i]
+    szamDoboz.classList.add('rejtett')
+    gamea.appendChild(szamDoboz)
 
-//#region 
-
-for (let i= 0; i < 12; i++) {
-    let szamDoboz = document.createElement ('div')
-    szamDoboz.innerText=t[i] 
-    gamea.appendChild(szamdoboz)
-    szamDoboz.addEventListener('click',function() {
-    if (szamDoboz.innerText== nextNumber){
+    szamDoboz.addEventListener('click', function () {
+      if (szamDoboz.innerText == nextNumber) {
         szamDoboz.classList.add('rejtett')
         nextNumber++
-    }
-})
 
+        if (nextNumber == 13) {
+          clearInterval(idozito)
+        }
+      }
+    })
+  }
 }
-//#endregion
 
-//#region 
-const szamlalo= document.querySelector('#szamlalo')
+function fillShowBoxes() {
+  const szamdobozok = gamea.querySelectorAll('div')
+  let i = 0
+  for (szamDoboz of szamdobozok) {
+    szamDoboz.innerText = t[i]
+    szamDoboz.classList.remove('rejtett')
+    i++
+  }
+}
 
-let ido=0
-setInterval(function (){
-    szamlalo.innerText= ido
+function startTimer() {
+  idozito = setInterval(function () {
+    szamlalo.innerText = ido / 10
     ido++
-},1000)
+  }, 1000)
+}
 
-//#endregion
+initNumbers()
+createBoxes()
+
+startButton.addEventListener('click', function () {
+  clearInterval(idozito)
+  nextNumber = 1
+  ido = 0
+  shuffleNumbers()
+  fillShowBoxes()
+  startTimer()
+})
